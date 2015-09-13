@@ -28,8 +28,9 @@ object Dependencies {
 
 	// dependencies on javascript libs
 	lazy val webjars= Def.setting(Seq(
+		"org.webjars" % "Semantic-UI" % Versions.semanticUI,
 
-		"org.webjars" % "Semantic-UI" % Versions.semanticUI
+		"org.webjars" % "jquery" % Versions.jquery
 	))
 
 	// common purpose libs
@@ -41,8 +42,6 @@ object Dependencies {
 	))
 
 	lazy val rdf= Def.setting(Seq(
-		//"org.w3" %% "banana-bigdata" % Versions.bananaBigdata excludeAll ExclusionRule(organization = "com.github.inthenow"),
-
 		"org.w3" %% "banana-sesame" % Versions.bananaRdf excludeAll ExclusionRule(organization = "com.github.inthenow")
 	))
 

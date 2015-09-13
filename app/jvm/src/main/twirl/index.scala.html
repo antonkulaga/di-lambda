@@ -1,14 +1,10 @@
 @(content:Option[Html] = None)
 <html>
-  <head title="Drug Age Database">
+  <head title="di-lambda spectro-photometer">
     @html.libs()
     @html.runner()
   </head>
   <body>
-    @html.sidebar()
-    <div  class="pusher"> <!--it will be pushed by a sidebar-->
-      @html.menu()
       @html.main(content)
-    </div>
   </body>
 </html>

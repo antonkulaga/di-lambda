@@ -1,0 +1,39 @@
+<div class="ui row segment"  data-view="devices">
+  <div class="ui column">
+    <table class="ui inverted green table">
+      <caption>
+        <h3 class="ui inverted green header">List of devices:</h3>
+      </caption>
+      <thead>
+        <tr>
+          <th>Device</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-template="true">
+          <td data-bind="deviceName"></td>
+          <td data-bind="port"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ui column" data-view="data">
+    <table class="ui inverted olive table">
+      <caption>
+        <h3 class="ui inverted olive header">Data from chosen device:</h3>
+      </caption>
+      <thead>
+        <tr>
+          <th>Absolute value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-template="true">
+          <td data-bind="value"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+    

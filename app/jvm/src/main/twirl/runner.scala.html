@@ -1,10 +1,7 @@
 @(into:String = "main",leftSidebar:Boolean = true)
-<script src="/resources/drugage-fastopt.js"></script>
+<script src="/resources/di-lambda-fastopt.js"></script>
 <script>
 $( document ).ready(function() {
     FrontEnd().main();
-    @if(leftSidebar) {
-    FrontEnd().showLeftSidebar();
-    }
 });
 </script>
