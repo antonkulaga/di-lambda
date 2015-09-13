@@ -21,20 +21,17 @@ object FrontEnd extends BindableView with scalajs.js.JSApp
   override def name: String = "main"
 
   lazy val elem: HTMLElement = dom.document.body
-
-  override val params: Map[String, Any] = Map.empty
   /**
    * Register views
    */
   override lazy val injector = defaultInjector
-    .register("devices"){ case (el, args) => new Devices(el, args).withBinder(new GeneralBinder(_)) }
-    .register("experiments"){ case (el, args) => new Experiments(el, args).withBinder(new GeneralBinder(_)) }
+    .register("devices"){ case (el, args) => new Devices(el).withBinder(new GeneralBinder(_)) }
+    .register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
 
   this.withBinder(new GeneralBinder(_))
 
   @JSExport
   def main(): Unit = {
-    dom.console.log("ITWORKS!")
     this.bindElement(this.viewElement)
   }
 

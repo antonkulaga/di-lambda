@@ -37,9 +37,9 @@ trait SharedVersions
 
 	val scalaCSS = "0.3.0"
 
-	val semanticControls = "0.0.8-M3"
+	val semanticControls = "0.0.8-M4"
 
-	val bindingControls = "0.0.8-M3"
+	val bindingControls = "0.0.8-M4"
 
 }
 

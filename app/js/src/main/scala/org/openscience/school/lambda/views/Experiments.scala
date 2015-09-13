@@ -35,7 +35,7 @@ class MeasurementView(val elem:HTMLElement,measurement:Var[Measurement]) extends
   val diode = measurement.map(m=>m.diode)
 }
 
-class Experiments(val elem:HTMLElement,val params:Map[String,Any] = Map.empty) extends BindableView with ItemsSetView
+class Experiments(val elem:HTMLElement) extends BindableView with ItemsSetView
 {
   override type Item = Var[Measurement]
 

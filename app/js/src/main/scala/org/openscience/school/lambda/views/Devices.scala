@@ -26,11 +26,11 @@ class DeviceView(val elem:HTMLElement,device:Var[Device], chosen:Var[Option[Devi
 
 case class Device(name:String = "undefined",port:String)
 
-class ValueView(val elem:HTMLElement, num:Double,val params:Map[String,Any] = Map.empty) extends BindableView {
+class ValueView(val elem:HTMLElement, num:Double) extends BindableView {
   val value = Var(num.toString)
 }
 
-class DataView(val elem:HTMLElement,val params:Map[String,Any]) extends BindableView with ItemsSeqView {
+class DataView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
 
   override type Item = Double
 
@@ -51,7 +51,7 @@ class DataView(val elem:HTMLElement,val params:Map[String,Any]) extends Bindable
   requestAnimationFrame(test _)
 }
 
-class Devices(val elem:HTMLElement,val params:Map[String,Any] = Map.empty) extends BindableView with ItemsSeqView {
+class Devices(val elem:HTMLElement) extends BindableView with ItemsSeqView {
 
   val chosen:Var[Option[Device]] = Var(None)
 
@@ -68,6 +68,6 @@ class Devices(val elem:HTMLElement,val params:Map[String,Any] = Map.empty) exten
     case (el,mp)=>  new DeviceView(el,item,chosen).withBinder(new GeneralBinder(_))  }
 
   override lazy val injector = this.defaultInjector.register("data"){
-    case (el,args)=> new DataView(el,params).withBinder(new GeneralBinder(_))
+    case (el,args)=> new DataView(el).withBinder(new GeneralBinder(_))
   }
 }
