@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-sources.iml" filepath="$PROJECT_DIR$/.idea/modules/app-sources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lambdaJS.iml" filepath="$PROJECT_DIR$/.idea/modules/lambdaJS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lambdaJS-build.iml" filepath="$PROJECT_DIR$/.idea/modules/lambdaJS-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lambdaJVM.iml" filepath="$PROJECT_DIR$/.idea/modules/lambdaJVM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lambdaJVM-build.iml" filepath="$PROJECT_DIR$/.idea/modules/lambdaJVM-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/root.iml" filepath="$PROJECT_DIR$/.idea/modules/root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/root-build.iml" filepath="$PROJECT_DIR$/.idea/modules/root-build.iml" />
+    </modules>
+  </component>
+</project>

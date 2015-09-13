@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: org.denigma:binding-macro_sjs0.6_2.11:0.1.14:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.denigma/binding-macro_sjs0.6_2.11/jars/binding-macro_sjs0.6_2.11-0.1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.denigma/binding-macro_sjs0.6_2.11/docs/binding-macro_sjs0.6_2.11-0.1.14-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.denigma/binding-macro_sjs0.6_2.11/srcs/binding-macro_sjs0.6_2.11-0.1.14-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

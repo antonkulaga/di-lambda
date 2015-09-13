@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: org.w3:banana-io-ntriples_2.11:0.8.1:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.w3/banana-io-ntriples_2.11/jars/banana-io-ntriples_2.11-0.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.w3/banana-io-ntriples_2.11/docs/banana-io-ntriples_2.11-0.8.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.w3/banana-io-ntriples_2.11/srcs/banana-io-ntriples_2.11-0.8.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
