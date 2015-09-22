@@ -5,6 +5,8 @@ import akka.io.IO
 import akka.util.ByteString
 import com.github.jodersky.flow.{Serial, SerialSettings}
 
+import scala.util.{Success, Failure, Try}
+
 /**
  *  Sample actor representing a simple terminal.
  */
@@ -31,8 +33,15 @@ class Terminal(port: String, settings: SerialSettings) extends Actor with ActorL
 
   def opened(operator: ActorRef): Receive = {
 
-    case Serial.Received(data) =>
-      log.info(s"Received data: " + data)
+    case Serial.Received(bytes) =>
+      val arr = bytes.toArray
+      Try(new String(arr.map(_.toChar)).toCharArray.map(_.toByte)) match {
+        case Success(str)=>
+          val st2 = bytes.decodeString("US-ASCII").trim
+          println(s"Device $port : "+st2)
+        case Failure(th)=>
+          log.info(s"Received strange data: " + bytes)
+      }
 
     case Serial.Closed =>
       log.info("Operator closed normally, exiting terminal.")

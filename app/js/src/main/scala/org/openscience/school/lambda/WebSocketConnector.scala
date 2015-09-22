@@ -15,7 +15,14 @@ import rx.core.Var
 case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPicklers with BinaryWebSocket
 {
   subscriber.onOpen.handler{
-    dom.alert("IT OPENS!")
+    dom.console.log("IT OPENS!")
+    val disc = LambdaMessages.Discover()
+    send(disc)
+  }
+
+  def send(lambdaMessages: LambdaMessages.LambdaMessage) = {
+    val mes = bytes2message(Pickle.intoBytes(lambdaMessages))
+    subscriber.send(mes)
   }
 
   subscriber.onClose.handler(
@@ -35,6 +42,10 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
   override protected def updateFromMessage(bytes: ByteBuffer): Unit = Unpickle[WebMessage].fromBytes(bytes) match
   {
       case LambdaMessages.Discovered(devs,_,_)=>
+        dom.console.log(s"MESSAGE RECEIVED! "+devs)
         this.devices() = devs
+        //if(chosen.now.contains())
+
+      case other => dom.alert(s"MESSAGE RECEIVED! "+other)
   }
 }

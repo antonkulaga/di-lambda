@@ -1,7 +1,6 @@
 package org.opensciencce.school.lambda.domain
 
 import java.util.Date
-
 import boopickle.Default._
 import org.denigma.controls.models.WebMessage
 
@@ -9,8 +8,6 @@ object LambdaMessages {
 
   type LambdaMessage = WebMessage
 
-  case class UserJoined(user:String,channel:String = "devices",date:Date = new Date) extends LambdaMessage
-  case class UserLeft(user:String,channel:String = "devices",date:Date = new Date) extends LambdaMessage
   case class Discover(channel:String = "devices",date:Date = new Date) extends LambdaMessage
   case class Discovered(devices:List[Device],channel:String = "devices",date:Date = new Date) extends LambdaMessage
   case class SelectDevices(devices:List[Device], channel:String = "devices",date:Date = new Date) extends LambdaMessage
@@ -32,7 +29,5 @@ class LambdaPicklers {
     .addConcreteType[Discover]
     .addConcreteType[Discovered]
     .addConcreteType[SelectDevices]
-    .addConcreteType[UserLeft]
-    .addConcreteType[UserJoined]
 
 }

@@ -1,9 +1,7 @@
 package org.openscience.school.lambda.routes
 
 import akka.actor.ActorRef
-import akka.http.extensions.security.LoginInfo
-import akka.http.extensions.stubs._
-import akka.http.scaladsl.server.{Route, Directives}
+import akka.http.scaladsl.server.{Directives, Route}
 import org.openscience.school.lambda.devices.SocketTransport
 
 

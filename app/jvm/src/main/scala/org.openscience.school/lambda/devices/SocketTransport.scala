@@ -3,29 +3,31 @@ package org.openscience.school.lambda.devices
 import akka.actor.ActorRef
 import akka.http.scaladsl.model.ws._
 import akka.stream.OverflowStrategy
+import akka.stream.scaladsl.FlowGraph.Implicits._
 import akka.stream.scaladsl._
 import akka.stream.stage._
 import akka.util.ByteString
 import boopickle.Default._
-import org.denigma.controls.models.{Suggestion, Suggest, WebMessage, WebPicklers}
-import org.opensciencce.school.lambda.domain.LambdaMessages
-import org.opensciencce.school.lambda.domain.LambdaMessages.{UserJoined, Discovered}
-import akka.stream.scaladsl.FlowGraph.Implicits._
+import org.denigma.controls.models.{WebMessage, WebPicklers}
+import org.opensciencce.school.lambda.domain.{LambdaPicklers, LambdaMessages}
+import org.opensciencce.school.lambda.domain.LambdaMessages.Discovered
 
-case class SocketTransport(deviceActor:ActorRef) extends WebPicklers {
+import ActorMessages._
+
+case class SocketTransport(deviceActor:ActorRef) extends LambdaPicklers {
 
 
   def webSocketFlow(channel: String, user: String = "guest"): Flow[Message, Message, _] =
   //Factory method allows for materialization of this Source
-    Flow(Source.actorRef[WebMessage](bufferSize = 5, OverflowStrategy.fail)) {
+    Flow.apply(Source.actorRef[WebMessage](bufferSize = 10, OverflowStrategy.fail)) {
       implicit builder =>
-        chatSource => //it's Source from parameter
+        source => //it's Source from parameter
 
           //flow used as input, it takes Messages
           val fromWebsocket = builder.add(
             Flow[Message].collect {
               case BinaryMessage.Strict(data) =>
-                println("WE GOT THE MESSAGE INSIDE!!!!!!!!!!!!!!!")
+                //println(s"WE GOT THE MESSAGE INSIDE!!!!!")
                 Unpickle[LambdaMessages.LambdaMessage].fromBytes(data.toByteBuffer)
             })
 
@@ -33,35 +35,47 @@ case class SocketTransport(deviceActor:ActorRef) extends WebPicklers {
           val backToWebsocket = builder.add(
             Flow[LambdaMessages.LambdaMessage].map {
               case mess:LambdaMessages.LambdaMessage=>
-                println("WE GOT THE MESSAGE BACK!!!!!!!!!!!!!!!"+mess)
+                //println("WE GOT THE MESSAGE BACK!!!!!!!!!!!!!!!\n"+mess)
                 val d = Pickle.intoBytes[LambdaMessages.LambdaMessage](mess)
                 BinaryMessage(ByteString(d))
             }
           )
 
           //send messages to the actor, if sent also UserLeft(user) before stream completes.
-          val mainActorSink = Sink.actorRef[LambdaMessages.LambdaMessage](deviceActor,LambdaMessages.UserLeft)
+          val mainActorSink = Sink.actorRef[LambdaMessages.LambdaMessage](deviceActor,UserLeft(user))
 
           //merges both pipes
           val merge = builder.add(Merge[LambdaMessages.LambdaMessage](2))
 
-          val actorAsSource = builder.materializedValue.map(actor => UserJoined(user))
+          val actorAsSource= builder.materializedValue.map(actor => UserJoined(user,actor))
 
-          //Message from websocket is converted into IncommingMessage and should be sent to everyone in the room
+          //Message from websocket is converted into IncomingMessage
           fromWebsocket ~> merge.in(0)
 
           //If Source actor is just created, it should be sent as UserJoined
           actorAsSource ~> merge.in(1)
 
-          //Merges both pipes above and forwards messages to chatroom represented by ChatRoomActor
+          //Merges both pipes above and forwards messages to main actor
           merge ~> mainActorSink
 
-          //Actor already sits in chatRoom so each message from room is used as source and pushed back into the websocket
-          chatSource ~> backToWebsocket
+          //Actor already sits in mainActor so each message from room is used as source and pushed back into the websocket
+          source ~> backToWebsocket
 
           // expose ports
           (fromWebsocket.inlet, backToWebsocket.outlet)
-    }
+    }.via(reportErrorsFlow[Message](channel,user))
+
+
+  def reportErrorsFlow[T](channel:String,username:String): Flow[T, T, Unit] =
+    Flow[T]
+      .transform(() ⇒ new PushStage[T, T] {
+        def onPush(elem: T, ctx: Context[T]): SyncDirective = ctx.push(elem)
+
+        override def onUpstreamFailure(cause: Throwable, ctx: Context[T]): TerminationDirective = {
+          println(s"WS stream for $channel failed for $username with the following cause:\n  $cause")
+          super.onUpstreamFailure(cause, ctx)
+        }
+      })
 
 
 /*
@@ -96,17 +110,5 @@ case class SocketTransport(deviceActor:ActorRef) extends WebPicklers {
           }
       }.via(reportErrorsFlow(channel,username)) // ... then log any processing errors on stdin
   }
-
-
-  def reportErrorsFlow[T](channel:String,username:String): Flow[T, T, Unit] =
-    Flow[T]
-      .transform(() ⇒ new PushStage[T, T] {
-        def onPush(elem: T, ctx: Context[T]): SyncDirective = ctx.push(elem)
-
-        override def onUpstreamFailure(cause: Throwable, ctx: Context[T]): TerminationDirective = {
-          println(s"WS stream for $channel failed for $username with the following cause:\n  $cause")
-          super.onUpstreamFailure(cause, ctx)
-        }
-      })
 
 }
