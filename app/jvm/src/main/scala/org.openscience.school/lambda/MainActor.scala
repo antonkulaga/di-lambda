@@ -3,6 +3,7 @@ package org.openscience.school.lambda
 import akka.actor._
 import akka.http.scaladsl.{Http, _}
 import akka.stream.ActorMaterializer
+import org.openscience.school.lambda.devices.DeviceActor
 import org.openscience.school.lambda.routes.Router
 
 class MainActor extends Actor with ActorLogging // Routes
@@ -12,7 +13,8 @@ class MainActor extends Actor with ActorLogging // Routes
   implicit val executionContext = system.dispatcher
 
   val server: HttpExt = Http(context.system)
-  val router: Router = new Router()
+  val deviceActor = context.actorOf(DeviceActor(),"device_actor")
+  val router: Router = new Router(deviceActor)
 
   override def receive: Receive = {
     case AppMessages.Start(config)=>

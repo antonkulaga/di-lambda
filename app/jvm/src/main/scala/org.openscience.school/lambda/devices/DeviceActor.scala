@@ -4,7 +4,7 @@ import akka.actor.{ActorRef, Props, Actor, ActorLogging}
 import akka.io.IO
 import com.github.jodersky.flow.{SerialSettings, Serial}
 
-class Devices  extends Actor with ActorLogging // Routes
+class DeviceActor  extends Actor with ActorLogging // Routes
 {
   implicit val system = this.context.system //for IO to work
 
@@ -35,6 +35,7 @@ class Devices  extends Actor with ActorLogging // Routes
         case None => //log.warning(s"Device is NOT serial device.")
       }
 
+    case other => println("something else received "+other)
 
   }
 
@@ -44,6 +45,6 @@ class Devices  extends Actor with ActorLogging // Routes
 
 }
 
-object Devices {
-  def apply() = Props(classOf[Devices])
+object DeviceActor {
+  def apply() = Props(classOf[DeviceActor])
 }

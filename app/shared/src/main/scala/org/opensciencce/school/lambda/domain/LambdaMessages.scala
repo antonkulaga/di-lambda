@@ -7,9 +7,13 @@ import org.denigma.controls.models.WebMessage
 
 object LambdaMessages {
 
-  case class Discover(channel:String = "devices",date:Date = new Date) extends WebMessage
-  case class Discovered(devices:List[Device],channel:String = "devices",date:Date = new Date) extends WebMessage
-  case class SelectDevices(devices:List[Device], channel:String = "devices",date:Date = new Date) extends WebMessage
+  type LambdaMessage = WebMessage
+
+  case class UserJoined(user:String,channel:String = "devices",date:Date = new Date) extends LambdaMessage
+  case class UserLeft(user:String,channel:String = "devices",date:Date = new Date) extends LambdaMessage
+  case class Discover(channel:String = "devices",date:Date = new Date) extends LambdaMessage
+  case class Discovered(devices:List[Device],channel:String = "devices",date:Date = new Date) extends LambdaMessage
+  case class SelectDevices(devices:List[Device], channel:String = "devices",date:Date = new Date) extends LambdaMessage
 }
 
 class LambdaPicklers {
@@ -24,8 +28,11 @@ class LambdaPicklers {
   implicit val measurementPickler = generatePickler[Measurement]
 
 
-  implicit val messagesPickler = compositePickler[WebMessage]
+  implicit val messagesPickler = compositePickler[LambdaMessages.LambdaMessage]
     .addConcreteType[Discover]
     .addConcreteType[Discovered]
     .addConcreteType[SelectDevices]
+    .addConcreteType[UserLeft]
+    .addConcreteType[UserJoined]
+
 }

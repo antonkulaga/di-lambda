@@ -5,6 +5,9 @@ import akka.http.extensions.security._
 import akka.http.scaladsl.model.Uri.Path
 import akka.http.scaladsl.model.ws.{UpgradeToWebsocket, Message}
 import akka.http.scaladsl.server._
+import akka.http.scaladsl.server.directives.HeaderDirectives._
+import akka.http.scaladsl.server.directives.RouteDirectives._
+import akka.http.scaladsl.server.directives.{HeaderDirectives, RouteDirectives}
 import akka.stream.scaladsl.{Source, Sink, Flow}
 
 
@@ -20,4 +23,8 @@ class WebSockets(
           handleWebsocketMessages(makeChannel(channel,username))
       }
     }
+
+  import RouteDirectives._
+  import HeaderDirectives._
+
 }
