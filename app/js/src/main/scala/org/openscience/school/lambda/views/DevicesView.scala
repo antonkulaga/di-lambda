@@ -54,18 +54,13 @@ class DataView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
   requestAnimationFrame(test _)
 }
 
-class DevicesView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
+class DevicesView(val elem:HTMLElement, val items:Var[Seq[Var[Device]]]) extends BindableView with ItemsSeqView {
 
   val chosen:Var[Option[Device]] = Var(None)
 
   override type Item = Var[Device]
 
   override type ItemView = DeviceView
-
-  override val items: Var[Seq[Var[Device]]] = Var(Seq(
-    Var(Device("SomeDevice1",port = "someport1")),
-    Var(Device("SomeDevice2",port = "someport2"))
-  ))
 
   val empty = items.map(_.isEmpty)
 

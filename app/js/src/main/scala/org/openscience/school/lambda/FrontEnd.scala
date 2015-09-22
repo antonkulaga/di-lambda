@@ -34,7 +34,7 @@ object FrontEnd extends BindableView with scalajs.js.JSApp
    * Register views
    */
   override lazy val injector = defaultInjector
-    .register("devices"){ case (el, args) => new DevicesView(el).withBinder(new GeneralBinder(_)) }
+    .register("devices"){ case (el, args) => new DevicesView(el,connector.devices).withBinder(new GeneralBinder(_)) }
     .register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
 
   this.withBinder(new GeneralBinder(_))

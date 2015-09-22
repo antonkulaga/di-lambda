@@ -19,7 +19,7 @@ case class SocketTransport(deviceActor:ActorRef) extends LambdaPicklers {
 
   def webSocketFlow(channel: String, user: String = "guest"): Flow[Message, Message, _] =
   //Factory method allows for materialization of this Source
-    Flow.apply(Source.actorRef[WebMessage](bufferSize = 10, OverflowStrategy.fail)) {
+    Flow.apply(Source.actorRef[LambdaMessages.LambdaMessage](bufferSize = 10, OverflowStrategy.fail)) {
       implicit builder =>
         source => //it's Source from parameter
 
@@ -102,10 +102,10 @@ case class SocketTransport(deviceActor:ActorRef) extends LambdaPicklers {
       Flow[Message].collect {
         case BinaryMessage.Strict(data) =>
           println("IT IS ALIVE!")
-          Unpickle[WebMessage].fromBytes(data.toByteBuffer) match {
+          Unpickle[LambdaMessages.LambdaMessage].fromBytes(data.toByteBuffer) match {
             case LambdaMessages.Discover(_,_)=>
               val disc = Discovered(List.empty)
-              val d = Pickle.intoBytes[WebMessage](disc)
+              val d = Pickle.intoBytes[LambdaMessages.LambdaMessage](disc)
               BinaryMessage(ByteString(d))
           }
       }.via(reportErrorsFlow(channel,username)) // ... then log any processing errors on stdin
