@@ -4,11 +4,11 @@ object Versions extends WebJarsVersions with ScalaJSVersions with RdfVersions wi
 
 	val akkaHttp = "1.0"
 
-	val ammonite = "0.4.7"
+	val ammonite = "0.4.8"
 
 	val akkaHttpExtensions = "0.0.5"
 
-	val scalatest = "3.0.0-M7"
+	val scalatest = "3.0.0-M9"
 
 	val lambda = "0.0.1" 
 
@@ -27,9 +27,9 @@ trait SharedVersions
 {
 	val autowire = "0.2.5"
 
-	val flow = "2.2.2" //"2.1.1"
+	val flow = "2.2.4" //"2.1.1"
 
-	val flowNative = "2.2.2" //"2.1.1"
+	val flowNative = "2.2.4" //"2.1.1"
 
 	val squants = "0.6.0-drugage"
 
@@ -37,9 +37,9 @@ trait SharedVersions
 
 	val scalaCSS = "0.3.0"
 
-	val semanticControls = "0.0.8-M4"
+	val bindingControls = "0.0.8-M6"
 
-	val bindingControls = "0.0.8-M4"
+	val booPickle = "1.1.0"
 
 }
 

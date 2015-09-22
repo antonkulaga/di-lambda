@@ -20,9 +20,9 @@ object Dependencies {
 	lazy val sjsLibs= Def.setting(Seq(
 		"org.querki" %%% "jquery-facade" % Versions.jqueryFacade, //scalajs facade for jQuery + jQuery extensions
 
-		"org.denigma" %%% "semantic-ui-facade" % Versions.semanticUIFacade,
+		"org.denigma" %%% "semantic-ui-facade" % Versions.semanticUIFacade
 
-		"org.denigma" %%% "semantic-controls" % Versions.semanticControls  excludeAll ExclusionRule(organization = "com.github.inthenow")
+		//"org.denigma" %%% "semantic-controls" % Versions.semanticControls  excludeAll ExclusionRule(organization = "com.github.inthenow")
 
 	))
 
@@ -37,7 +37,9 @@ object Dependencies {
 	lazy val shared = Def.setting(Seq(
 		"com.squants"  %% "squants"  % Versions.squants,
 
-		"org.denigma" %%% "binding-controls" % Versions.bindingControls
+		"org.denigma" %%% "binding-controls" % Versions.bindingControls,
+
+		"me.chrons" %%% "boopickle" % Versions.booPickle
 
 	))
 

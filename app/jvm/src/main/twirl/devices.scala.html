@@ -15,6 +15,9 @@
           <td data-bind="deviceName"></td>
           <td data-bind="port"></td>
         </tr>
+        <tr data-show-if="empty">
+          <td colspan="2">No devices found</td>
+        </tr>
       </tbody>
     </table>
   </div>

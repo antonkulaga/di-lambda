@@ -1,17 +1,22 @@
 package org.openscience.school.lambda.views
 
 
+import java.nio.ByteBuffer
+
 import org.denigma.binding.binders.{Events, GeneralBinder}
-import org.denigma.binding.views.{ItemsSeqView, ItemsSetView, CollectionView, BindableView}
+import org.denigma.binding.extensions._
+import org.denigma.binding.views.{BindableView, ItemsSeqView}
+import org.denigma.controls.selection.Suggester
+import org.opensciencce.school.lambda.domain.Device
 import org.scalajs.dom
 import org.scalajs.dom._
-import org.scalajs.dom.raw.HTMLElement
-import rx.Rx
+import org.scalajs.dom.raw.{MessageEvent, HTMLElement}
 import rx.core.Var
+import rx.ops._
 
 import scala.collection.immutable.Seq
-import rx.ops._
-import org.denigma.binding.extensions._
+import scala.scalajs.js.typedarray.TypedArrayBufferOps._
+import scala.scalajs.js.typedarray.{Int8Array, ArrayBuffer, TypedArrayBuffer}
 
 class DeviceView(val elem:HTMLElement,device:Var[Device], chosen:Var[Option[Device]]) extends BindableView{
   val params:Map[String,Any] = Map.empty
@@ -23,8 +28,6 @@ class DeviceView(val elem:HTMLElement,device:Var[Device], chosen:Var[Option[Devi
       chosen() = Some(device.now)
   }
 }
-
-case class Device(name:String = "undefined",port:String)
 
 class ValueView(val elem:HTMLElement, num:Double) extends BindableView {
   val value = Var(num.toString)
@@ -51,7 +54,7 @@ class DataView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
   requestAnimationFrame(test _)
 }
 
-class Devices(val elem:HTMLElement) extends BindableView with ItemsSeqView {
+class DevicesView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
 
   val chosen:Var[Option[Device]] = Var(None)
 
@@ -64,6 +67,8 @@ class Devices(val elem:HTMLElement) extends BindableView with ItemsSeqView {
     Var(Device("SomeDevice2",port = "someport2"))
   ))
 
+  val empty = items.map(_.isEmpty)
+
   override def newItem(item: Var[Device]): DeviceView = this.constructItemView(item){
     case (el,mp)=>  new DeviceView(el,item,chosen).withBinder(new GeneralBinder(_))  }
 
@@ -71,3 +76,6 @@ class Devices(val elem:HTMLElement) extends BindableView with ItemsSeqView {
     case (el,args)=> new DataView(el).withBinder(new GeneralBinder(_))
   }
 }
+
+
+
