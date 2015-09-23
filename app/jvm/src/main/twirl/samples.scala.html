@@ -1,27 +1,29 @@
-<table class="ui inverted blue table" data-view="samples">
-    <caption>
-        <h3 class="ui blue header">Samples of the Experiment:</h3>
-    </caption>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr data-template="true">
-            <td data-bind="sampleName"></td>
-            <td data-bind="description"></td>
-            <td><button class="ui positive button">Measure!</button></td>
-            <td><button class="ui positive button" data-click="remove"><i class="ui icon remove"></i></button></td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <tr>
-            <td data-bind="nameNew"></td>
-            <td data-bind="descriptionNew"></td>
-            <td colspan="2"><button data-click="add" class="ui button">Add sample</button></td>
-        </tr>
-    </tfoot>
-</table>
+<div class="ui column segment">
+    <table class="ui inverted blue table" data-view="samples">
+        <caption>
+            <h3 class="ui blue header">Samples of the Experiment:</h3>
+        </caption>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-template="true">
+                <td data-bind="sampleName"></td>
+                <td data-bind="description"></td>
+                <td><button class="ui button">Measure!</button></td>
+                <td><button class="ui button" data-click="remove"><i class="ui icon remove"></i></button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td data-bind="nameNew"></td>
+                <td data-bind="descriptionNew"></td>
+                <td colspan="2"><button data-click="add" class="ui button">Add sample</button></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
