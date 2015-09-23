@@ -6,6 +6,7 @@ import rx.core.Var
 
 case class Device(name:String = "undefined",port:String)
 
+/*
 object Measurement
 {
   implicit val ordering = new Ordering[Measurement]{
@@ -20,7 +21,14 @@ object Measurement
     }
   }
 }
+*/
 
-case class Measurement(sample:Sample = Sample("unknown","unknown"),diode:String = "unknown",value:Double,date:Date = new Date())
+case class Value(device:Device,channels:Seq[Double],date:Date = new Date)
 
-case class Sample(name:String,Description:String = "")
+//case class Measurement(sample:Sample,values:List[Value])
+//case class Measurement(sample:Sample = Sample("unknown","unknown"),diode:String = "unknown",value:Double,date:Date = new Date())
+
+object Sample{
+  lazy val blank = Sample("Blank","Blank Control")
+}
+case class Sample(name:String,description:String = "")

@@ -3,18 +3,11 @@ package org.openscience.school.lambda
 import org.denigma.binding.binders.GeneralBinder
 import org.denigma.binding.extensions._
 import org.denigma.binding.views.BindableView
-import org.denigma.controls.login.{AjaxSession, LoginView}
 import org.denigma.controls.sockets.WebSocketSubscriber
-import org.opensciencce.school.lambda.domain.{Device, LambdaPicklers}
-import org.openscience.school.lambda.views.{Experiments, DevicesView}
-import org.querki.jquery._
+import org.openscience.school.lambda.views._
 import org.scalajs.dom
 import org.scalajs.dom.raw.HTMLElement
-import org.semantic.SidebarConfig
-import org.semantic.ui._
-import rx.core.Var
 
-import scala.collection.immutable.Map
 import scala.scalajs.js.annotation.JSExport
 
 @JSExport("FrontEnd")
@@ -26,7 +19,7 @@ object FrontEnd extends BindableView with scalajs.js.JSApp
   lazy val elem: HTMLElement = dom.document.body
 
   lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
-  println(connector.subscriber.urlOpt.now)
+  //println(connector.subscriber.urlOpt.now)
   //val devices = connector.devices
 
 
@@ -35,7 +28,10 @@ object FrontEnd extends BindableView with scalajs.js.JSApp
    */
   override lazy val injector = defaultInjector
     .register("devices"){ case (el, args) => new DevicesView(el,connector.devices).withBinder(new GeneralBinder(_)) }
-    .register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
+    .register("data"){  case (el,args)=> new DataView(el,connector.values).withBinder(new GeneralBinder(_))   }
+    .register("samples"){  case (el,args)=> new Samples(el).withBinder(new GeneralBinder(_))   }
+
+  //.register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
 
   this.withBinder(new GeneralBinder(_))
 

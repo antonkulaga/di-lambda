@@ -13,7 +13,7 @@ object LambdaMessages {
   case class Discover(channel:String = "devices",date:Date = new Date) extends LambdaMessage
   case class Discovered(devices:List[Device],channel:String = "devices",date:Date = new Date) extends LambdaMessage
   case class SelectDevice(device:Option[Device], channel:String = "devices",date:Date = new Date) extends LambdaMessage
-  case class LastMeasurements(measurements:List[Measurement],channel:String = "devices",date:Date = new Date) extends LambdaMessage
+  case class LastMeasurements(values:List[Value],channel:String = "devices",date:Date = new Date) extends LambdaMessage
 }
 
 class LambdaPicklers {
@@ -22,10 +22,12 @@ class LambdaPicklers {
 
   implicit val datePickler = transformPickler[java.util.Date, Long](_.getTime, t => new java.util.Date(t))
 
-  //implicit val datePickler = generatePickler[Date]
   implicit val devicePickler = generatePickler[Device]
+  implicit val valuePickler = generatePickler[Value]
   implicit val samplePickler = generatePickler[Sample]
-  implicit val measurementPickler = generatePickler[Measurement]
+  implicit val lastMeasurementsPickler = generatePickler[LastMeasurements]
+
+  // implicit val measurementPickler = generatePickler[Measurement]
 
 
   implicit val messagesPickler = compositePickler[LambdaMessages.LambdaMessage]

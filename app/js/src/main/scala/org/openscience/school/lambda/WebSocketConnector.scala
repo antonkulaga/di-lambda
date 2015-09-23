@@ -8,7 +8,7 @@ import org.denigma.binding.extensions._
 import org.denigma.controls.models.WebMessage
 import org.denigma.controls.sockets.WebSocketSubscriber
 import org.opensciencce.school.lambda.domain.LambdaMessages.Discover
-import org.opensciencce.school.lambda.domain.{Measurement, Device, LambdaMessages, LambdaPicklers}
+import org.opensciencce.school.lambda.domain.{Value, Device, LambdaMessages, LambdaPicklers}
 import org.scalajs.dom
 import rx.core.Var
 import scala.collection.immutable._
@@ -40,20 +40,25 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
 
   lazy val devices:Var[Seq[Var[Device]]] = Var(Seq.empty)
   lazy val chosen:Var[Option[Device]] = Var(None)
+  lazy val values:Var[Seq[Value]] = Var(Seq.empty)
 
   protected def onChosenChange(opt:Option[Device]): Unit ={
     send(LambdaMessages.SelectDevice(opt))
   }
 
-
-  lazy val dataFromChosen:Var[Seq[Measurement]] = Var(List.empty)
-
-
-  override protected def updateFromMessage(bytes: ByteBuffer): Unit = Unpickle[WebMessage].fromBytes(bytes) match
+  override protected def updateFromMessage(bytes: ByteBuffer): Unit = Unpickle[LambdaMessages.LambdaMessage].fromBytes(bytes) match
   {
       case LambdaMessages.Discovered(devs,_,_)=>
-        dom.console.log(s"Discovered RECEIVED! "+devs)
         this.devices() = devs.map(Var(_))
+        val d = chosen.now
+        if(d.isEmpty || !devs.contains(d.get)){
+          if(devs.nonEmpty) chosen() = Some(devs.head)
+        }
+
+      case LambdaMessages.LastMeasurements(vals,channel,date)=>
+        println("VALUES RECEIVED "+vals)
+        this.values() = vals
+
         //if(chosen.now.contains())
 
       case other => dom.alert(s"MESSAGE RECEIVED! "+other)

@@ -2,13 +2,14 @@ package org.openscience.school.lambda.views
 
 import org.denigma.binding.binders.GeneralBinder
 import org.denigma.binding.views.{BindableView, ItemsSetView}
-import org.opensciencce.school.lambda.domain.{Measurement, Sample}
+import org.opensciencce.school.lambda.domain._
 import org.scalajs.dom.raw.HTMLElement
 import rx.core.Var
 import rx.ops._
 
 import scala.collection.immutable.SortedSet
 
+/*
 class MeasurementView(val elem:HTMLElement,measurement:Var[Measurement]) extends BindableView
 {
   val sample = measurement.map(m=>m.sample.name)
@@ -43,3 +44,4 @@ class Experiments(val elem:HTMLElement) extends BindableView with ItemsSetView
   }
 
 }
+*/

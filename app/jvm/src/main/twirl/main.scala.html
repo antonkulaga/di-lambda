@@ -1,7 +1,14 @@
 @(content:Option[Html] = None)
 <main id="main" class="ui segment container">
+  <h1 class="ui inverted green huge center aligned header">DIλ</h1>
   <section class="ui equal width grid">
-    @html.devices()
-    @html.experiments()
+    <div class="ui row segment" >
+      @html.devices()
+      @html.values()
+    </div>
+    <div class="ui row segment" >
+      @html.samples()
+      @html.experiments()
+    </div>
   </section>
 </main>

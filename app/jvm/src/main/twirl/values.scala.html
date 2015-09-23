@@ -1,0 +1,41 @@
+<div class="ui column" data-view="data">
+  <table class="ui inverted olive center aligned table">
+    <caption>
+      <h3 class="ui inverted olive header">Data from chosen device:</h3>
+    </caption>
+    <thead>
+      <tr>
+        <th>Device</th>
+        <th colspan="3">Values</th>
+        <th>Time</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Channel 1</th>
+        <th>Channel 2</th>
+        <th>Channel 3</th>
+        <th></th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr data-template="true">
+        <td data-bind="device"></td>
+        <td data-bind="value1"></td>
+        <td data-bind="value2"></td>
+        <td data-bind="value3"></td>
+        <td data-bind="time"></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Averages of:</th>
+        <td data-bind="avg1"></td>
+        <td data-bind="avg2"></td>
+        <td data-bind="avg3"></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+  

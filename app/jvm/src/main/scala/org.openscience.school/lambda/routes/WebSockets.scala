@@ -23,8 +23,4 @@ class WebSockets(
           handleWebsocketMessages(makeChannel(channel,username))
       }
     }
-
-  import RouteDirectives._
-  import HeaderDirectives._
-
 }

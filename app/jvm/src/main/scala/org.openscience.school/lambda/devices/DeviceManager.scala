@@ -7,23 +7,26 @@ import akka.http.extensions.utils.BiMap
 import akka.io.IO
 import com.github.jodersky.flow.internal.SerialConnection
 import com.github.jodersky.flow.{SerialSettings, Serial}
+import org.opensciencce.school.lambda.domain.LambdaMessages.SelectDevice
 import org.opensciencce.school.lambda.domain.{Device, LambdaMessages}
 
 object ActorMessages {
 
   case class UserJoined(user:String,userActor:ActorRef,channel:String = "devices",date:Date = new Date) extends LambdaMessages.LambdaMessage
   case class UserLeft(user:String,channel:String = "devices",date:Date = new Date) extends LambdaMessages.LambdaMessage
+  case class SubscribeValues(actor:ActorRef)
+  case class UnsubscribeValues(actor:ActorRef)
 
 }
 import ActorMessages._ //UGLY TRICK!
 
-class DeviceActor()  extends Actor with ActorLogging // Routes
+class DeviceManager extends Actor with ActorLogging with Broadcaster
 {
   implicit val system = this.context.system //for IO to work
 
   var terminals:BiMap[String,ActorRef] = BiMap.empty
 
-  var users:Map[String,ActorRef] = Map.empty
+  var selectedDevice:Option[Device] = None
 
   val ports = List(
     "/dev/ttyUSB\\d+"
@@ -39,14 +42,6 @@ class DeviceActor()  extends Actor with ActorLogging // Routes
   def terminalsIntoDevices() = {
     val devices:List[Device]  = (for(p<-terminals.keys) yield Device("di-lambda",p) ).toList
     LambdaMessages.Discovered(devices)
-  }
-
-  def broadcast[T](mess:T) = { for{
-    (u,socket)<-users
-  }{
-    socket ! mess
-  }
-    println("broadcast to users "+users.keys.toList.mkString("=="))
   }
 
   override def receive: Receive = {
@@ -87,6 +82,22 @@ class DeviceActor()  extends Actor with ActorLogging // Routes
         case None =>
       }
 
+    case SelectDevice(Some(dev),_,_)=>
+      terminals.get(dev.port) match {
+        case Some(term)=>
+          val from = users.values.head//sender()
+          term ! SubscribeValues(from)
+          selectedDevice = Some(dev)
+        case None=> log.error(s"cannot find termina for ${dev.port}")
+      }
+    case SelectDevice(None,_,_)=>
+      if(selectedDevice.isDefined && terminals.contains(selectedDevice.get.port)){
+        val from = users.values.head//sender()
+        terminals(selectedDevice.get.port) ! UnsubscribeValues(from)
+        selectedDevice = None
+      }
+
+
     case other => println("UNKNOWN MESSAGE"+other)
 
   }
@@ -97,6 +108,6 @@ class DeviceActor()  extends Actor with ActorLogging // Routes
 
 }
 
-object DeviceActor {
-  def apply() = Props(classOf[DeviceActor])
+object DeviceManager {
+  def apply() = Props(classOf[DeviceManager])
 }
