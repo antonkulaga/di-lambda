@@ -22,6 +22,21 @@ object Measurement
   }
 }
 */
+object Measurement {
+  implicit val orderingVar = new Ordering[Var[Measurement]]{
+    override def compare(x: Var[Measurement], y: Var[Measurement]): Int = {
+      ordering.compare(x.now,y.now)
+    }
+  }
+  implicit val ordering = new Ordering[Measurement]{
+    override def compare(x: Measurement, y: Measurement): Int = {
+      x.date.compareTo(y.date) match {
+        case 0=> x.sample.name.compareTo(y.sample.name)
+        case other=> other
+      }
+    }
+  }
+}
 
 case class Value(device:Device,channels:Seq[Double],date:Date = new Date)
 
@@ -31,4 +46,7 @@ case class Value(device:Device,channels:Seq[Double],date:Date = new Date)
 object Sample{
   lazy val blank = Sample("Blank","Blank Control")
 }
+
 case class Sample(name:String,description:String = "")
+
+case class Measurement(sample:Sample,channel:Int,value:Double,blank:Double,date:Date = new Date)

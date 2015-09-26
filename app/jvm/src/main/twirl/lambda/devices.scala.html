@@ -1,17 +1,19 @@
-<div class="ui segment column"  data-view="devices">
-    <table class="ui inverted green table">
+<div class="ui segment green inverted column"  data-view="devices">
+  <img class="ui medium image" src="/resources/logo.png">
+  <table class="ui inverted green table">
       <caption>
         <h3 class="ui green header">List of devices:</h3>
       </caption>
       <thead>
         <tr>
-          <th>Device</th>
+          <th colspan="2">Device</th>
           <th>Port</th>
         </tr>
       </thead>
       <tbody>
         <tr data-template="true">
           <td data-bind="deviceName"></td>
+          <td><img class="ui fluid image" src="/resources/photo1.jpg"></td>
           <td data-bind="port"></td>
         </tr>
         <tr data-show-if="empty">
@@ -19,10 +21,4 @@
         </tr>
       </tbody>
     </table>
-@*  <div>
-    <h3 class="ui inverted teal header">Parameters of the device</h3>
-    Channel1 wavelength<input class="ui input">
-    Channel2 wavelength<input class="ui input">
-    Channel3 wavelength<input class="ui input">
-  </div>*@
 </div>

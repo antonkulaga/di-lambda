@@ -18,20 +18,11 @@ object FrontEnd extends BindableView with scalajs.js.JSApp
 
   lazy val elem: HTMLElement = dom.document.body
 
-  lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
-  //println(connector.subscriber.urlOpt.now)
-  //val devices = connector.devices
-
-
   /**
    * Register views
    */
   override lazy val injector = defaultInjector
-    .register("devices"){ case (el, args) => new DevicesView(el,connector.devices).withBinder(new GeneralBinder(_)) }
-    .register("data"){  case (el,args)=> new DataView(el,connector.values).withBinder(new GeneralBinder(_))   }
-    .register("samples"){  case (el,args)=> new Samples(el).withBinder(new GeneralBinder(_))   }
-
-  //.register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
+    .register("experiments"){ case (el, args) => new Experiments(el).withBinder(new GeneralBinder(_)) }
 
   this.withBinder(new GeneralBinder(_))
 

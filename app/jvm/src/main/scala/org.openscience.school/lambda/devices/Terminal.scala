@@ -4,7 +4,6 @@ import akka.actor.{Actor, ActorLogging, ActorRef, Props, Terminated}
 import akka.io.IO
 import akka.util.ByteString
 import com.github.jodersky.flow.{Serial, SerialSettings}
-import html.values
 import org.opensciencce.school.lambda.domain.{LambdaMessages, Device, Value}
 
 import scala.util.{Success, Failure, Try}
