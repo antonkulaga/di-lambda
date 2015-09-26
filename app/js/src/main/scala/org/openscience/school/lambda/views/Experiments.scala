@@ -9,10 +9,7 @@ import org.scalajs.dom.raw.HTMLElement
 import rx.core.Var
 import rx.ops._
 
-import scala.collection.immutable.SortedSet
-
-
-
+import scala.collection.immutable._
 
 
 class Experiments(val elem:HTMLElement) extends BindableView
@@ -21,12 +18,14 @@ class Experiments(val elem:HTMLElement) extends BindableView
 
   lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
 
+  val blanks = Var(Seq[Double](0.0,0.0,0.0))
+
   override lazy val injector = defaultInjector
     .register("samples")    {
-      case (el, args) => new Samples(el)
+      case (el, args) => new SamplesView(el)
         .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )}
-    .register("values") {
-      case (el, args) => new RawDataView(el,connector.values)
+    .register("data") {
+      case (el, args) => new RawDataView(el,connector.values,blanks)
         .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
     }
     .register("devices") {

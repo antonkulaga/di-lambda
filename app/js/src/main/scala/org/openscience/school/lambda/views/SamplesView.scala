@@ -11,23 +11,29 @@ import rx.core.Var
 import rx.ops._
 
 import scala.collection.immutable.Seq
-class SampleView(val elem:HTMLElement,val item:Var[Sample]) extends BindableView{
+class SampleView(val elem:HTMLElement,val item:Var[Sample], val all:Var[Seq[Var[Sample]]]) extends BindableView{
 
-  val sampleName = item.map(i=>i.name)
-  val description = item.map(_.description)
+  val currentData = Var(item.now)
+  item.onChange("item_changed"){case i=> currentData.set(i)}
 
-  val measure = Var(Events.createMouseEvent())
-  measure.handler{
-    dom.console.log("measure works!")
+  val sampleName = Var(item.now.name)
+  val description = Var(item.now.description)
+  val changed = Rx{
+    currentData()!=item()
+  }
+
+  val save = Var(Events.createMouseEvent())
+  save.handler{
+    item() = item()
   }
 
   val remove = Var(Events.createMouseEvent())
   remove.handler{
-    dom.console.log("removal works!")
+    all() = all.now.filterNot(i=>i==item)
   }
 }
 
-class Samples(val elem:HTMLElement) extends BindableView with ItemsSeqView {
+class SamplesView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
 
   override type Item = Var[Sample]
   override type ItemView = SampleView
@@ -52,6 +58,6 @@ class Samples(val elem:HTMLElement) extends BindableView with ItemsSeqView {
   }
 
   override def newItem(item: Item): SampleView =  this.constructItemView(item){
-    case (el,args)=> new SampleView(el,item).withBinder(new GeneralBinder(_))
+    case (el,args)=> new SampleView(el,item,items).withBinder(new GeneralBinder(_))
   }
 }

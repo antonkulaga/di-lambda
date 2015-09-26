@@ -55,7 +55,7 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
         }
 
       case LambdaMessages.LastMeasurements(vals,channel,date)=>
-        println("VALUES RECEIVED "+vals)
+        //println("VALUES RECEIVED "+vals)
         this.values() = vals
 
         //if(chosen.now.contains())

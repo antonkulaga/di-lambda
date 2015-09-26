@@ -1,4 +1,3 @@
-@*
 <div class="ui column violet segment" data-view="samples">
     <table class="ui inverted violet table">
         <caption>
@@ -8,15 +7,15 @@
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th></th>
+                <th>Save</th>
             </tr>
         </thead>
         <tbody>
             <tr data-template="true">
-                <td data-bind="sampleName"></td>
-                <td data-bind="description"></td>
-                <td><button class="ui button">Measure!</button></td>
-                <td><button class="ui button" data-even-click="remove"><i class="ui icon remove"></i></button></td>
+                <td><input class="ui input" data-bind="sampleName"></td>
+                <td><input class="ui input" data-bind="description"></td>
+                <td><button><i data-class-green-if="changed" class="save icon"></i>Save</button></td>
+                <td><button><i class="remove icon"></i>Remove</button></td>
             </tr>
         </tbody>
         <tfoot>
@@ -28,4 +27,3 @@
         </tfoot>
     </table>
 </div>
-*@
