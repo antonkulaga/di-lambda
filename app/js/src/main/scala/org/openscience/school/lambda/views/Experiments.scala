@@ -18,24 +18,24 @@ class Experiments(val elem:HTMLElement) extends BindableView
 
   lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
 
-  val blanks = Var(Seq[Double](0.0,0.0,0.0))
+  val blanks: Var[Seq[Double]] = Var(Seq[Double](0.0,0.0,0.0))
+  val samples: Var[Seq[Var[Sample]]] = Var(Seq.empty)
 
   override lazy val injector = defaultInjector
     .register("samples")    {
-      case (el, args) => new SamplesView(el)
-        .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )}
+      case (el, args) => new SamplesView(el,samples)
+        .withBinder(  new GeneralBinder(_)  )}
     .register("data") {
       case (el, args) => new RawDataView(el,connector.values,blanks)
-        .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
+        .withBinder(  new GeneralBinder(_)  )
     }
     .register("devices") {
       case (el, args) => new DevicesView(el,connector.devices)
-      .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
+      .withBinder(  new GeneralBinder(_)  )
     }
     .register("measurements") {
-      case (el, args) => new Measurements(el)
-        .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
+      case (el, args) => new Measurements(el,blanks)
+        .withBinder(  new GeneralBinder(_)  )
     }
-
 
 }

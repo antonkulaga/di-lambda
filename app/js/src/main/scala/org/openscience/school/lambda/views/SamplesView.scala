@@ -33,11 +33,10 @@ class SampleView(val elem:HTMLElement,val item:Var[Sample], val all:Var[Seq[Var[
   }
 }
 
-class SamplesView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
+class SamplesView(val elem:HTMLElement, val items: Var[Seq[Var[Sample]]]) extends BindableView with ItemsSeqView {
 
   override type Item = Var[Sample]
   override type ItemView = SampleView
-  override val items: Var[Seq[Item]] = Var(Seq(Var(Sample.blank)))
 
   val nameNew = Var("")
   val descriptionNew = Var("")
@@ -60,4 +59,8 @@ class SamplesView(val elem:HTMLElement) extends BindableView with ItemsSeqView {
   override def newItem(item: Item): SampleView =  this.constructItemView(item){
     case (el,args)=> new SampleView(el,item,items).withBinder(new GeneralBinder(_))
   }
+  override lazy val injector = defaultInjector
+    .register("suggest")    {
+      case (el, args) => new SuggestView(el,items)
+        .withBinder(  new GeneralBinder(_)  )}
 }

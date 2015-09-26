@@ -35,3 +35,6 @@ object Sample{
 case class Sample(name:String,description:String = "")
 
 case class Measurement(sample:Sample,channel:Int,value:Double,blank:Double,date:Date = new Date)
+{
+  lazy val absorbance = -Math.log10(value/blank)
+}

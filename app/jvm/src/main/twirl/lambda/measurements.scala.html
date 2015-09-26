@@ -1,4 +1,3 @@
-@*
 <div class="ui segment olive column" data-view="measurements">
   <table class="ui inverted olive table"  ><!--data-view="experiments"-->
     <caption>
@@ -7,16 +6,25 @@
     <thead>
       <tr>
         <th>Sample</th>
-        <th>Diode</th>
+        <th>Channel</th>
         <th>Value</th>
-        <th>Time</th>
+        <th>Blank</th>
+        <th></th>
+        <th>Absorbance</th>
       </tr>
     </thead>
-    <tr data-template="true">
-      <td data-bind="sample"></td>
-      <td data-bind="diode"></td>
-      <td data-bind="value"></td>
-      <td data-bind="datetime"></td>
-    </tr>
+    <tbody>
+      <tr data-template="true">
+        <td>
+          <input list="sample">
+        </td>
+        <td data-bind="channel"></td>
+        <td data-bind="value"></td>
+        <td data-bind="blank"></td>
+        <td><button class="ui button" data-event-click="updateBlank">Update Blank</button></td>
+        <td data-bind="absorbance"></td>
+      </tr>
+    </tbody>
+
   </table>
-</div>*@
+</div>
