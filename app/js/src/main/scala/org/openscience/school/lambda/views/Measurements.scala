@@ -1,24 +1,53 @@
 package org.openscience.school.lambda.views
 import org.denigma.binding.binders.{Events, GeneralBinder}
+import org.denigma.binding.extensions.sq
 import org.denigma.binding.views.{ItemsSeqView, CollectionView, BindableView, ItemsSetView}
 import org.opensciencce.school.lambda.domain._
-import org.scalajs.dom.MouseEvent
+import org.scalajs.dom
+import org.scalajs.dom._
 import org.scalajs.dom.raw.HTMLElement
+import rx._
 import rx.core.Var
 import rx.ops._
 import scala.collection.immutable._
+import org.denigma.binding.extensions._
 
-class Measurements(val elem:HTMLElement,blanks:Var[Seq[Double]]) extends BindableView  with ItemsSetView {
+class Measurements(val elem:HTMLElement,val items: Var[SortedSet[Var[Measurement]]],blanks:Var[Seq[Double]])
 
-  val items: Var[SortedSet[Var[Measurement]]] = Var(SortedSet.empty[Var[Measurement]])
+  extends BindableView  with ItemsSetView {
 
   override type Item = Var[Measurement]
 
   override type ItemView = MeasurementView
 
+
+ // lazy val items: Var[SortedSet[Var[Measurement]]] = Var(SortedSet(ms:_*))
+
   override def newItem(item: Var[Measurement]): MeasurementView = this.constructItemView(item){
-    case (el,_)=>new MeasurementView(el,item,blanks).withBinder(new GeneralBinder(_))
+    case (el,args)=>
+      println(item.now)
+      new MeasurementView(el,item,blanks).withBinder(m=>new GeneralBinder(m))
   }
+
+
+  items.handler{
+    println("*************"+items.now)
+  }
+  /*
+
+
+
+  override protected def subscribeUpdates() = {
+    template.style.display = "none"
+    this.items.now.foreach(i=>this.addItemView(i,this.newItem(i))) //initialization of views
+    updates.onChange("ItemsUpdates")(upd=>{
+      upd.added.foreach(onInsert)
+      upd.removed.foreach(onRemove)
+    })
+  }
+*/
+
+
 }
 
 
@@ -39,10 +68,11 @@ class MeasurementView(val elem:HTMLElement,measurement:Var[Measurement],blanks:V
 {
   import org.denigma.binding.extensions._
   val sample = measurement.map(m=>m.sample.name)
-  val channel = measurement.map(m=>m.channel)
-  val value = measurement.map(m=>m.value)
-  val blank = measurement.map(m=>m.blank)
-  val absorbance = measurement.map(m=>m.absorbance)
+  val channel = measurement.map(m=>m.channel.toString)
+  val value = measurement.map(m=>m.value.toString)
+  val blank = measurement.map(m=>m.blank.toString)
+  val absorbance = measurement.map(m=>m.absorbance.toString)
+  val transmittance = measurement.map(m=>m.transmittance.toString)
   val updateBlank: Var[MouseEvent] = Var(Events.createMouseEvent())
   updateBlank.handler{
     measurement() = measurement.now.copy(blank = blanks.now(measurement.now.channel))

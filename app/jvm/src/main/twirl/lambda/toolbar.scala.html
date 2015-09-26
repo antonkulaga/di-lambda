@@ -1,0 +1,48 @@
+<div class="ui green inverted secondary column" data-view="toolbar">
+  <table class="ui inverted green secondary large center aligned table">
+    <thead>
+      <tr>
+        <th>Device</th>
+        <th colspan="3">Values</th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Channel 1</th>
+        <th>Channel 2</th>
+        <th>Channel 3</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Last Values:</th>
+        <td data-bind="last1"></td>
+        <td data-bind="last2"></td>
+        <td data-bind="last3"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Add measurements:</th>
+        <td><button data-event-click="add1" class="ui violet button">Channel 1</button></td>
+        <td><button data-event-click="add2" class="ui violet button">Channel 2</button></td>
+        <td><button data-event-click="add3" class="ui violet button">Channel 3</button></td>
+        <td>Sample name <input data-bind="sample"></td>
+      </tr>
+      <tr>
+        <th>Blanks:</th>
+        <td data-bind="blank1"></td>
+        <td data-bind="blank2"></td>
+        <td data-bind="blank3"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Set blanks:</th>
+        <td><button data-event-click="addBlank1" class="ui violet button">Blank 1</button></td>
+        <td><button data-event-click="addBlank2" class="ui violet button">Blank 2</button></td>
+        <td><button data-event-click="addBlank3" class="ui violet button">Blank 3</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  

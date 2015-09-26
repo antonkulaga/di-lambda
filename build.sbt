@@ -25,7 +25,7 @@ lazy val commonSettings = Seq(
   resolvers += sbt.Resolver.bintrayRepo("denigma", "denigma-releases"), // for scala-js-binding
   resolvers += sbt.Resolver.bintrayRepo("rmihael", "maven"),
   resolvers += sbt.Resolver.bintrayRepo("jodersky", "maven"),
-  libraryDependencies ++= Dependencies.shared.value++Dependencies.testing.value,
+  libraryDependencies ++= Dependencies.shared.value,//++Dependencies.testing.value,
   updateOptions := updateOptions.value.withCachedResolution(true), // to speed up dependency resolution
   scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature", "-language:implicitConversions")
 )

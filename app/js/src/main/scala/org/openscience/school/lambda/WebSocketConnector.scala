@@ -28,7 +28,6 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
   subscriber.onClose.handler(
     dom.alert("CLOSED")
   )
-
   subscriber.onMessage.onChange("OnMessage",uniqueValue = false)(onMessage)
   chosen.onChange("chosenChange")(onChosenChange)
 
@@ -37,9 +36,11 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
     subscriber.send(bytes)
   }
 
+  import rx.ops._
   lazy val devices:Var[Seq[Var[Device]]] = Var(Seq.empty)
   lazy val chosen:Var[Option[Device]] = Var(None)
-  lazy val values:Var[Seq[DeviceData]] = Var(Seq.empty)
+  lazy val data:Var[Seq[DeviceData]] = Var(Seq.empty)
+  lazy val channels = data.map(d=>if(d.isEmpty)Seq(0.0,0.0,0.0) else d.last.channels)
 
   protected def onChosenChange(opt:Option[Device]): Unit ={
     send(LambdaMessages.SelectDevice(opt))
@@ -56,7 +57,7 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
 
       case LambdaMessages.LastMeasurements(vals,channel,date)=>
         //println("VALUES RECEIVED "+vals)
-        this.values() = vals
+        this.data() = vals
 
         //if(chosen.now.contains())
 

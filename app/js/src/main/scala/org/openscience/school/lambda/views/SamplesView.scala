@@ -49,7 +49,7 @@ class SamplesView(val elem:HTMLElement, val items: Var[Seq[Var[Sample]]]) extend
     descriptionNew() = ""
   }
 
-  val add = Var(Events.mousedown)
+  val add = Var(Events.createMouseEvent())
   add.onChange("addClick"){
     case ev=>
       items() = items.now ++ List(Var(sampleNew.now))

@@ -14,15 +14,24 @@
             <tr data-template="true">
                 <td><input class="ui input" data-bind="sampleName"></td>
                 <td><input class="ui input" data-bind="description"></td>
-                <td><button><i data-class-green-if="changed" class="save icon"></i>Save</button></td>
-                <td><button><i class="remove icon"></i>Remove</button></td>
+                <td><button class="ui icon button"  data-event-click="save">
+                        <i data-class-green-if="changed" class="save icon"></i>
+                    </button>
+                </td>
+                <td>
+                    <button class="ui icon button" data-event-click="remove" >
+                        <i class="remove icon"></i>
+                    </button>
+                </td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td data-bind="nameNew"></td>
-                <td data-bind="descriptionNew"></td>
-                <td colspan="2"><button data-click="add" class="ui button">Add sample</button></td>
+                <td><input class="ui input" data-bind="nameNew"></td>
+                <td><input class="ui input" data-bind="descriptionNew"></td>
+                <td colspan="2">
+                    <button data-click="add" class="ui button">Add sample</button>
+                </td>
             </tr>
         </tfoot>
     </table>

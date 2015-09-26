@@ -9,7 +9,12 @@ import rx.ops._
 
 import scala.collection.immutable.Seq
 
-class RawDataView(val elem:HTMLElement, val items: Var[Seq[DeviceData]], val blanks:Var[Seq[Double]]) extends BindableView with ItemsSeqView {
+class RawDataView(val elem:HTMLElement,
+                  val items: Var[Seq[DeviceData]],
+                 //val channels:Rx[Seq[Double]],
+                  val blanks:Var[Seq[Double]]
+                   ) extends BindableView with ItemsSeqView
+{
 
 
   override type Item = DeviceData
@@ -33,29 +38,6 @@ class RawDataView(val elem:HTMLElement, val items: Var[Seq[DeviceData]], val bla
   val avg1: rx.Rx[String] = averages.map(_._1.toString)
   val avg2 = averages.map(_._2.toString)
   val avg3 = averages.map(_._3.toString)
-
-  protected def getBlank(blank:Seq[Double],index:Int) = if(blank.size>index) blank(index).toString else "N/A"
-  protected def updateBlank(index:Int) = if(blankAverage.now){
-    ???
-    //blanks() = blanks.now.updated(index,averageList.now(index)) //kostyl
-  } else{
-    blanks() = blanks.now.updated(index,channels.now.last(index))
-  }
-
-  import org.denigma.binding.extensions._
-  val addBlank1 = Var(Events.createMouseEvent())
-  addBlank1.handler{ updateBlank(0)}
-  val addBlank2 = Var(Events.createMouseEvent())
-  addBlank2.handler{ updateBlank(1)}
-  val addBlank3 = Var(Events.createMouseEvent())
-  addBlank3.handler{ updateBlank(2)}
-
-
-  val blankAverage = Var(false)
-
-  val blank1 = blanks.map{ getBlank(_,0)}
-  val blank2 = blanks.map{ getBlank(_,1)}
-  val blank3 = blanks.map{ getBlank(_,2)}
 
 }
 

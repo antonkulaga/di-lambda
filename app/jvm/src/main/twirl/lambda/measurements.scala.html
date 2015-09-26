@@ -1,5 +1,5 @@
-<div class="ui segment olive column" data-view="measurements">
-  <table class="ui inverted olive table"  ><!--data-view="experiments"-->
+<div class="ui segment olive column"  data-view="measurements">
+  <table class="ui inverted olive table">
     <caption>
       <h3 class="ui header">List of Measurements:</h3>
     </caption>
@@ -9,22 +9,17 @@
         <th>Channel</th>
         <th>Value</th>
         <th>Blank</th>
-        <th></th>
         <th>Absorbance</th>
+        <th>Transmittance</th>
       </tr>
     </thead>
-    <tbody>
       <tr data-template="true">
-        <td>
-          <input list="sample">
-        </td>
+        <td data-bind="sample"></td>
         <td data-bind="channel"></td>
         <td data-bind="value"></td>
         <td data-bind="blank"></td>
-        <td><button class="ui button" data-event-click="updateBlank">Update Blank</button></td>
         <td data-bind="absorbance"></td>
+        <td data-bind="transmittance">transmittance</td>
       </tr>
-    </tbody>
-
   </table>
 </div>

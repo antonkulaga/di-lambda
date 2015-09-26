@@ -6,6 +6,7 @@ import org.denigma.controls.sockets.WebSocketSubscriber
 import org.opensciencce.school.lambda.domain._
 import org.openscience.school.lambda.WebSocketConnector
 import org.scalajs.dom.raw.HTMLElement
+import rx.Rx
 import rx.core.Var
 import rx.ops._
 
@@ -18,24 +19,36 @@ class Experiments(val elem:HTMLElement) extends BindableView
 
   lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
 
-  val blanks: Var[Seq[Double]] = Var(Seq[Double](0.0,0.0,0.0))
-  val samples: Var[Seq[Var[Sample]]] = Var(Seq.empty)
+  lazy val blanks: Var[Seq[Double]] = Var(Seq[Double](0.0,0.0,0.0))
+  lazy val samples: Var[Seq[Var[Sample]]] = Var(Seq.empty)
 
-  override lazy val injector = defaultInjector
-    .register("samples")    {
+  val measurements = Var(SortedSet.empty[Var[Measurement]])
+
+   measurements() = SortedSet(Var(Measurement(Sample("one"),10,12,12)),Var(Measurement(Sample("on12e"),1120,12,12)),Var(Measurement(Sample("one"),10,1212,12)))
+
+
+  override lazy val injector = defaultInjector.register("measurements") {
+      case (el, args) =>
+      val m =   new Measurements(el,measurements,blanks).withBinder(  new GeneralBinder(_)  )
+      import org.denigma.binding.extensions._
+        m.items.handler{ println("..."+m.items.now)}
+        m
+    }
+    .register("toolbar") {
+      case (el, args) => new Toolbar(el,connector.channels,blanks,measurements)
+        .withBinder(  new GeneralBinder(_)  )
+    }
+/*    .register("samples")    {
       case (el, args) => new SamplesView(el,samples)
         .withBinder(  new GeneralBinder(_)  )}
     .register("data") {
-      case (el, args) => new RawDataView(el,connector.values,blanks)
+      case (el, args) => new RawDataView(el,connector.data,blanks)
         .withBinder(  new GeneralBinder(_)  )
     }
     .register("devices") {
       case (el, args) => new DevicesView(el,connector.devices)
       .withBinder(  new GeneralBinder(_)  )
-    }
-    .register("measurements") {
-      case (el, args) => new Measurements(el,blanks)
-        .withBinder(  new GeneralBinder(_)  )
-    }
+    }*/
+
 
 }

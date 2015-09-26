@@ -3,14 +3,15 @@ package org.opensciencce.school.lambda.domain
 import java.util.Date
 
 import rx.core.Var
-
+import scala.collection.immutable._
 case class Device(name:String = "undefined",port:String)
 
 
 object Measurement {
   implicit val orderingVar = new Ordering[Var[Measurement]]{
     override def compare(x: Var[Measurement], y: Var[Measurement]): Int = {
-      ordering.compare(x.now,y.now)
+      //ordering.compare(x.now,y.now)
+      1
     }
   }
   implicit val ordering = new Ordering[Measurement]{
@@ -19,14 +20,12 @@ object Measurement {
         case 0=> x.sample.name.compareTo(y.sample.name)
         case other=> other
       }
+      1
     }
   }
 }
 
 case class DeviceData(device:Device,channels:Seq[Double],date:Date = new Date)
-
-//case class Measurement(sample:Sample,values:List[Value])
-//case class Measurement(sample:Sample = Sample("unknown","unknown"),diode:String = "unknown",value:Double,date:Date = new Date())
 
 object Sample{
   lazy val blank = Sample("Blank","Blank Control")
@@ -37,4 +36,5 @@ case class Sample(name:String,description:String = "")
 case class Measurement(sample:Sample,channel:Int,value:Double,blank:Double,date:Date = new Date)
 {
   lazy val absorbance = -Math.log10(value/blank)
+  lazy val transmittance= value/blank * 100
 }

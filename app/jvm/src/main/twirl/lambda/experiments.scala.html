@@ -1,10 +1,14 @@
 <section class="ui equal width grid" data-view="experiments">
+    <div class="row">
+        @lambda.html.toolbar()
+    </div>
+    <div class="row" data-view="experiments">
+@*        @lambda.html.samples()*@
+        @lambda.html.measurements()
+    </div>
+@*
     <div class="row" >
         @lambda.html.devices()
         @lambda.html.data()
-    </div>
-    <div class="row" data-view="experiments">
-        @lambda.html.samples()
-        @lambda.html.measurements()
-    </div>
+    </div>*@
 </section>
