@@ -11,26 +11,9 @@ import rx.ops._
 
 import scala.collection.immutable.SortedSet
 
-class MeasurementView(val elem:HTMLElement,measurement:Var[Measurement]) extends BindableView
-{
-  val sample = measurement.map(m=>m.sample.name)
-  /*val datetime = measurement.map(m=>m.date.getTime.toString)
-  val diode = measurement.map(m=>m.diode)
-  val value = measurement.map(m=>m.value.toString)*/
-}
 
-class Measurements(val elem:HTMLElement) extends BindableView  with ItemsSetView {
 
-  val items: Var[SortedSet[Var[Measurement]]] = Var(SortedSet.empty[Var[Measurement]])
 
-  override type Item = Var[Measurement]
-
-  override type ItemView = MeasurementView
-
-  override def newItem(item: Var[Measurement]): MeasurementView = this.constructItemView(item){
-    case (el,_)=>new ItemView(el,item).withBinder(new GeneralBinder(_))
-  }
-}
 
 class Experiments(val elem:HTMLElement) extends BindableView
 {
@@ -39,18 +22,21 @@ class Experiments(val elem:HTMLElement) extends BindableView
   lazy val connector: WebSocketConnector = WebSocketConnector(WebSocketSubscriber("devices","guest"))
 
   override lazy val injector = defaultInjector
-    .register("measurements")    {
+    .register("samples")    {
       case (el, args) => new Samples(el)
         .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )}
-    .register("devices") {
-      case (el, args) => new DevicesView(el,connector.devices)
+    .register("values") {
+      case (el, args) => new RawDataView(el,connector.values)
         .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
     }
     .register("devices") {
-      case (el, args) => new Measurements(el)
+      case (el, args) => new DevicesView(el,connector.devices)
       .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
     }
-
+    .register("measurements") {
+      case (el, args) => new Measurements(el)
+        .withBinder(  new GeneralBinder(_/*,recover = self.binders.collectFirst{   case b:GeneralBinder=>b  }*/)  )
+    }
 
 
 }

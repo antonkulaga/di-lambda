@@ -1,16 +1,16 @@
 package org.openscience.school.lambda.views
 
 import org.denigma.binding.binders.{Events, GeneralBinder}
-import org.denigma.binding.views.{ItemsSeqView, BindableView}
-import org.opensciencce.school.lambda.domain.{Sample, Value}
-import org.scalajs.dom
-import org.scalajs.dom.raw.{Event, HTMLElement}
 import org.denigma.binding.extensions._
+import org.denigma.binding.views.{BindableView, ItemsSeqView}
+import org.opensciencce.school.lambda.domain.Sample
+import org.scalajs.dom
+import org.scalajs.dom.raw.HTMLElement
 import rx.Rx
 import rx.core.Var
+import rx.ops._
 
 import scala.collection.immutable.Seq
-import rx.ops._
 class SampleView(val elem:HTMLElement,val item:Var[Sample]) extends BindableView{
 
   val sampleName = item.map(i=>i.name)

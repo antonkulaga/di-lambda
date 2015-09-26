@@ -4,7 +4,7 @@ package org.openscience.school.lambda.views
 import org.denigma.binding.binders.{Events, GeneralBinder}
 import org.denigma.binding.extensions._
 import org.denigma.binding.views.{BindableView, ItemsSeqView}
-import org.opensciencce.school.lambda.domain.{Device, Value}
+import org.opensciencce.school.lambda.domain._
 import org.scalajs.dom._
 import org.scalajs.dom.raw.HTMLElement
 import rx.core.Var

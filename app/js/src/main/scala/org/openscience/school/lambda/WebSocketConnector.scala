@@ -5,10 +5,9 @@ import java.nio.ByteBuffer
 
 import boopickle.Default._
 import org.denigma.binding.extensions._
-import org.denigma.controls.models.WebMessage
 import org.denigma.controls.sockets.WebSocketSubscriber
 import org.opensciencce.school.lambda.domain.LambdaMessages.Discover
-import org.opensciencce.school.lambda.domain.{Value, Device, LambdaMessages, LambdaPicklers}
+import org.opensciencce.school.lambda.domain._
 import org.scalajs.dom
 import rx.core.Var
 import scala.collection.immutable._
@@ -40,7 +39,7 @@ case class WebSocketConnector(subscriber:WebSocketSubscriber) extends LambdaPick
 
   lazy val devices:Var[Seq[Var[Device]]] = Var(Seq.empty)
   lazy val chosen:Var[Option[Device]] = Var(None)
-  lazy val values:Var[Seq[Value]] = Var(Seq.empty)
+  lazy val values:Var[Seq[DeviceData]] = Var(Seq.empty)
 
   protected def onChosenChange(opt:Option[Device]): Unit ={
     send(LambdaMessages.SelectDevice(opt))

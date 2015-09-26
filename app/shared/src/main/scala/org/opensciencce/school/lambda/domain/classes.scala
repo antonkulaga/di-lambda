@@ -6,22 +6,7 @@ import rx.core.Var
 
 case class Device(name:String = "undefined",port:String)
 
-/*
-object Measurement
-{
-  implicit val ordering = new Ordering[Measurement]{
-    override def compare(x: Measurement, y: Measurement): Int = {
-      x.date.compareTo(y.date)
-    }
-  }
 
-  implicit val varOrdering = new Ordering[Var[Measurement]]{
-    override def compare(x: Var[Measurement], y: Var[Measurement]): Int = {
-      x.now.date.compareTo(y.now.date)
-    }
-  }
-}
-*/
 object Measurement {
   implicit val orderingVar = new Ordering[Var[Measurement]]{
     override def compare(x: Var[Measurement], y: Var[Measurement]): Int = {
@@ -38,7 +23,7 @@ object Measurement {
   }
 }
 
-case class Value(device:Device,channels:Seq[Double],date:Date = new Date)
+case class DeviceData(device:Device,channels:Seq[Double],date:Date = new Date)
 
 //case class Measurement(sample:Sample,values:List[Value])
 //case class Measurement(sample:Sample = Sample("unknown","unknown"),diode:String = "unknown",value:Double,date:Date = new Date())

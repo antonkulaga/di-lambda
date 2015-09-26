@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, ActorRef, Props, Terminated}
 import akka.io.IO
 import akka.util.ByteString
 import com.github.jodersky.flow.{Serial, SerialSettings}
-import org.opensciencce.school.lambda.domain.{LambdaMessages, Device, Value}
+import org.opensciencce.school.lambda.domain._
 
 import scala.util.{Success, Failure, Try}
 
@@ -56,7 +56,7 @@ class Terminal(port: String, settings: SerialSettings) extends Actor with ActorL
       val st = str.replace("Measurement: ","")
       Try{
         val channels = st.trim.split(' ').toList.map(s=>s.toDouble)
-        Value(Device("di-lambda",port),channels)
+        DeviceData(Device("di-lambda",port),channels)
       }
       match {
         case Success(value)=>
