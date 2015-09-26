@@ -35,6 +35,8 @@ case class Sample(name:String,description:String = "")
 
 case class Measurement(sample:Sample,channel:Int,value:Double,blank:Double,date:Date = new Date)
 {
-  lazy val absorbance = -Math.log10(value/blank)
-  lazy val transmittance= value/blank * 100
+  def round(a:Double) = Math.round(a * 1000.0) / 1000.0
+
+  lazy val absorbance = if(blank==0.0) "N/A" else round(-Math.log10(value/blank))
+  lazy val transmittance = if(blank==0.0) "N/A" else round(value/blank * 100)
 }

@@ -1,5 +1,5 @@
 <div class="ui green inverted secondary column" data-view="toolbar">
-  <table class="ui inverted green secondary large center aligned table">
+  <table class="ui inverted green secondary huge center aligned table">
     <thead>
       <tr>
         <th>Device</th>
@@ -15,19 +15,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th>Last Values:</th>
+     @* <tr>
+        <th>Raw Values:</th>
         <td data-bind="last1"></td>
         <td data-bind="last2"></td>
         <td data-bind="last3"></td>
         <td></td>
-      </tr>
-      <tr>
-        <th>Add measurements:</th>
-        <td><button data-event-click="add1" class="ui violet button">Channel 1</button></td>
-        <td><button data-event-click="add2" class="ui violet button">Channel 2</button></td>
-        <td><button data-event-click="add3" class="ui violet button">Channel 3</button></td>
-        <td>Sample name <input data-bind="sample"></td>
       </tr>
       <tr>
         <th>Blanks:</th>
@@ -35,14 +28,57 @@
         <td data-bind="blank2"></td>
         <td data-bind="blank3"></td>
         <td></td>
-      </tr>
+      </tr>*@
       <tr>
         <th>Set blanks:</th>
         <td><button data-event-click="addBlank1" class="ui violet button">Blank 1</button></td>
         <td><button data-event-click="addBlank2" class="ui violet button">Blank 2</button></td>
         <td><button data-event-click="addBlank3" class="ui violet button">Blank 3</button></td>
       </tr>
-    </tbody>
+      <tr>
+        <th>Absorbance:</th>
+        <td data-bind="abs1"></td>
+        <td data-bind="abs2"></td>
+        <td data-bind="abs3"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Transmittance:</th>
+        <td data-bind="trans1"></td>
+        <td data-bind="trans2"></td>
+        <td data-bind="trans3"></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <th>Add measurements:</th>
+        <td><button data-event-click="add1" class="ui violet button">Sample 1</button></td>
+        <td><button data-event-click="add2" class="ui violet button">Sample 2</button></td>
+        <td><button data-event-click="add3" class="ui violet button">Sample 3</button></td>
+        <td></td>
+      </tr>
+       </tbody>
+  </table>
+  <table class="ui inverted olive large table">
+    <caption>
+      <h3 class="ui header">List of Measurements:</h3>
+    </caption>
+      <tr>
+        <th>Sample</th>
+        <th>Channel</th>
+        <th>Value</th>
+        @*<th>Blank</th>
+        *@<th>Absorbance</th>
+        <th>Transmittance</th>
+      </tr>
+    <tr>
+      <td><input data-bind="sample"></td>
+      <td data-bind="channel"></td>
+      <td data-bind="value"></td>
+      @*<td data-bind="blank"></td>
+      *@<td data-bind="absorbance"></td>
+      <td data-bind="transmittance">transmittance</td>
+    </tr>
   </table>
 </div>
   

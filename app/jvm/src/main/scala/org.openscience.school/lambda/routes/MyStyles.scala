@@ -12,4 +12,14 @@ object MyStyles extends StyleSheet.Standalone {
     backgroundColor(lightgoldenrodyellow)
     )
 
+  ".ui.inverted.table tr th" -(
+      fontSize(20 pt) important,
+      fontWeight.bold
+
+  )
+  ".ui.inverted.table tr td" -(
+    fontSize(20 pt) important,
+    fontWeight.bold
+
+    )
 }

@@ -28,11 +28,7 @@ class Experiments(val elem:HTMLElement) extends BindableView
 
 
   override lazy val injector = defaultInjector.register("measurements") {
-      case (el, args) =>
-      val m =   new Measurements(el,measurements,blanks).withBinder(  new GeneralBinder(_)  )
-      import org.denigma.binding.extensions._
-        m.items.handler{ println("..."+m.items.now)}
-        m
+      case (el, args) => new Measurements(el,measurements,blanks).withBinder(  new GeneralBinder(_)  )
     }
     .register("toolbar") {
       case (el, args) => new Toolbar(el,connector.channels,blanks,measurements)
